@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Website Template</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a id="brand" href="/">ACHRYSAETOS</a></li>
+            <li><a class="nav" href="/products">Products</a></li>
+            <li><a class="nav" href="/features">Features</a></li>
+            <li><a class="nav" href="/pricing">Pricing</a></li>
+            <li><a class="nav" href="/about">About</a></li>
+            <li><a class="nav" href="/contact_us">Contact Us</a></li>
+            <li class="signup" onclick="location.href='/signup'" style="float:right">Sign Up</li>
+            <li class="login" onclick="location.href='/login'" style="float:right">Log In</li>
+        </ul>
+    </header>
+
+    {% block body %}
+    {% endblock %}
+
+    <footer>
+        <div class="footersections">
+            <div class="about">
+                <h1>About</h1>
+                <h3>
+                    About the about section. About the about section. About the about section.
+                    About the about section. About the about section. About the about section.
+                    About the about section. About the about section. About the about section.
+                    About the about section. About the about section. About the about section.
+                </h3>
+            </div>
+
+            <div class="categories">
+                <h1>Categories</h1>
+                <ul>
+                    <li><a href="/products">Products</a></li>
+                    <li><a href="/features">Features</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="contact_us">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="quicklinks">
+                <h1>Quick Links</h1>
+                <ul>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">FAQs</a></li>
+                    <li><a href="">Careers</a></li>
+                    <li><a href="">Support Us</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+        <h6>Copyright © 2020 ACHRYSAETOS, Inc. All rights reserved.</h6>
+
+    </footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+{% extends "LAYOUT.html" %}
+{% block body %}
+
+<main>
+    <div class="jumbotron" style="background-image: url('images/hot3.jpg');">
+        <div class="flexalign">
+            <form action="" method="post" style="float:right" class="signupmodal" autocomplete="off">
+                <div class="modalhead">
+                    ACHRYSAETOS
+                </div>
+                <h3>Enter your email address. We'll get back to you shortly.</h3>
+                <div class="container">
+                    <input type="text" placeholder="Email address" required>
+
+                    <div style="text-align: center;">
+                        <button type="button" onclick="location.href='/login'" class="next">Next</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

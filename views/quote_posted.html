@@ -1,0 +1,27 @@
+{% extends "LAYOUT2.html" %}
+{% block body %}
+
+<form action="/quote" method="post" style="float:right" class="loginmodal" autocomplete="off">
+    <div class="modalhead">
+        {{companyName}} ({{symbol}})
+    </div>
+
+    <div class="container">
+        <h3>${{latestPrice}}</h3>
+        <div class="extrainfo">
+            <p>Opening Price: ${{open}}</p>
+            <p>High: ${{high}}</p>
+            <p>Low: ${{low}}</p>
+            <p>Closing Price: ${{close}}</p>
+        </div>
+
+
+        <div style="text-align: center;">
+            <button type="button" class="cancel" onclick="location.href='/quote'">Back</button>
+            <button type="button" class="quote" onclick="location.href='/buy'">Buy!</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

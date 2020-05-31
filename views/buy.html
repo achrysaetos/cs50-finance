@@ -1,0 +1,23 @@
+{% extends "LAYOUT2.html" %}
+{% block body %}
+
+<form action="/buy" method="post" style="float:right" class="loginmodal" autocomplete="off">
+    <div class="modalhead">
+        Buy a Stock
+    </div>
+
+    <div class="container">
+        <label class="modaltxt" for="quotesymbol">Company Symbol</label>
+        <input type="text" placeholder="Enter company symbol" name="quotesymbol" required>
+        <label class="modaltxt" for="buyshares">Number of Shares</label>
+        <input type="text" placeholder="Enter number of shares" name="buyshares" required>
+
+        <div style="text-align: center;">
+            <button type="button" class="cancel" onclick="location.href='/dashboard'">Cancel</button>
+            <button class="quote">Next</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

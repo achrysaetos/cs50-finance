@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Website Template</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style2.css">
+</head>
+
+<body>
+    <div class="dashboard">
+        <header>
+            <ul>
+                <li><a id="brand" href="/">C$50Finance</a></li>
+                <li><a class="nav" href="/quote">Quote a Stock</a></li>
+                <li><a class="nav" href="/buy">BUY!</a></li>
+                <li><a class="nav" href="/sell">SELL!</a></li>
+                <li><a class="nav" href="/portfolio">My Stocks</a></li>
+                <li><a class="nav" href="/history">History</a></li>
+            </ul>
+        </header>
+        <div class="screen">
+            <div class="bar">
+                <ul>
+                    <li class="logout" onclick="location.href='/logout'" style="float:right">Log Out</li>
+                </ul>
+
+            </div>
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <footer>
+        <hr>
+
+        <ul>
+            <li>
+                <h6>Copyright © 2020 ACHRYSAETOS, Inc.</h6>
+            </li>
+            <li><a href="">Terms of Service</a></li>
+            <li><a href="">Privacy Policy</a></li>
+            <li><a href="">FAQs</a></li>
+            <li><a href="">Careers</a></li>
+            <li><a href="">Support Us</a></li>
+        </ul>
+
+    </footer>
+
+</body>
+
+</html>

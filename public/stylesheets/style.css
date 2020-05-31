@@ -1,0 +1,582 @@
+/*
+Navbar---------------------------------------------------------------------------------------------
+*/
+header{
+    margin-top: -8px;
+    background-color: rgb(48, 48, 48);
+    position: fixed;
+    width: 99%;
+    z-index: 1000;
+}
+
+ul{
+    margin: 20px auto;
+    padding: 0 10px;
+}
+
+li{
+    display: inline-block;
+    color: whitesmoke;
+    font-size: 18px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0 20px;
+}
+
+.nav:hover{
+    color: orange;
+    cursor: pointer;
+}
+
+#brand{
+    color: darkorange;
+    margin-bottom: -4px;
+}
+
+#brand:hover{
+    cursor: pointer;
+}
+
+.login{
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    margin-top: -10px;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: darkgray;
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+    outline: 0 none;
+}
+
+.login:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+
+.login:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+.signup{
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    margin-top: -10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: darkorange;
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+    outline: 0 none;
+}
+
+.signup:hover {
+    background-color: rgb(255, 110, 0);
+    cursor: pointer;
+}
+
+.signup:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+
+
+/*
+Front Page Heading---------------------------------------------------------------------------------
+*/
+.flexalign{
+    margin-left: 50px;
+    margin-right: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media only screen and (max-width: 900px){
+    .intro{
+        display: none;
+    }
+    .loginmodal{
+        max-width: 800px;
+    }
+}
+
+.intro{
+    margin-top: 300px;
+    max-width: 500px;
+}
+
+.intro h1{
+    color: rgb(255, 110, 0);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 30px;
+    font-weight: 300;
+    margin-top: 0px;
+}
+
+.intro h2{
+    color: black;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 24px;
+    margin-top: 0px;
+}
+
+.jumbotron{
+    height: 800px;
+    background-image: url("../images/cheryl_background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+}
+
+.learnmore{
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: darkgray;
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+    outline: 0 none;
+}
+
+.learnmore:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+
+.learnmore:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+.getstarted{
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    margin-left: 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: darkorange;
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+    outline: 0 none;
+}
+
+.getstarted:hover {
+    background-color: rgb(255, 110, 0);
+    cursor: pointer;
+}
+
+.getstarted:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+
+
+/*
+Login Modal----------------------------------------------------------------------------------------
+*/
+form{
+    margin-top: 100px;
+    border: 2px solid black;
+    border-radius: 20px;
+    height: 575px;
+    min-width: 450px;
+    max-width: 450px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.container {
+    padding: 50px;
+}
+
+.modalhead{
+    font-size: 24px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+    padding-top: 50px;
+    text-align: center;
+    color: rgb(255, 110, 0);
+}
+
+.modaltxt{
+    font-size: 18px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+}
+
+.modaltxtlower{
+    font-size: 16px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: lighter;
+}
+
+.next{
+    margin-top: 10px;
+    border: 0;
+    line-height: 2.5;
+    padding: 5px 150px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    border-radius: 100px;
+    background-color: darkorange;
+    outline: 0 none;
+}
+
+.next:hover {
+    background-color: rgb(255, 110, 0);
+    cursor: pointer;
+}
+
+.next:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+.create{
+    margin-top: 20px;
+    border: 0;
+    line-height: 2.5;
+    padding: 5px 100px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: darkorange;
+    border-radius: 100px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid darkorange;
+    outline: 0 none;
+}
+
+.create:hover {
+    color: rgb(255, 80, 0);
+    cursor: pointer;
+}
+
+input[type=text], input[type=password] {
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    width: 100%;
+    padding: 12px 24px;
+    margin: 12px 0;
+    border: 1px solid gray;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 0 none;
+}
+
+
+
+/*
+Carousel for Features------------------------------------------------------------------------------
+*/
+.carousel{
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.carouselitem{
+    text-align: center;
+    max-width: 300px;
+}
+
+.carouselitem h1{
+    color: rgb(255, 110, 0);
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+}
+
+.carouselitem h3{
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-bottom: 50px;
+}
+
+.carouselimg{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+
+
+/*
+Banners--------------------------------------------------------------------------------------------
+*/
+.sponsors{
+    width: 100%;
+    background-color: lightgray;
+    text-align: center;
+    margin-top: -20px;
+    font-family: cursive;
+    font-size: 12px;
+    font-weight: normal;
+    color: rgb(255, 110, 0);
+}
+
+#sponsornames{
+    color: black;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+
+.testimonials{
+    width: 100%;
+    background-color: lightgray;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.testimonials h1{
+    padding-top: 10px;
+    font-family: cursive;
+    font-size: 36px;
+    font-weight: normal;
+    color: rgb(255, 110, 0);
+}
+
+.testimonials h2{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 24px;
+}
+
+.testimonials h3{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+    font-style: italic;
+}
+
+.testimonials h4{
+    float: right;
+    margin-top: 0;
+}
+
+.revwbuttons{
+    margin-left: 200px;
+    margin-right: 200px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding-bottom: 20px;
+}
+
+.userreview{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.reviewtxt{
+    max-width: 500px;
+    text-align: left;
+}
+
+.testimonials img{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin: 20px;
+}
+
+.revbutton{
+    line-height: 3;
+    padding: 10px 10px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: darkorange;
+    border-radius: 100px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid darkorange;
+    outline: 0 none;
+}
+
+.revbutton:hover{
+    color: rgb(255, 80, 0);
+    cursor: pointer;
+}
+
+
+
+/*
+Body Sections--------------------------------------------------------------------------------------
+*/
+hr{
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.section{
+    margin-left: 100px;
+    margin-right: 100px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.info{
+    max-width: 500px;
+}
+
+.section h1{
+    color: rgb(255, 110, 0);
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+}
+
+.section h3{
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.sectionimg{
+    width: 500px;
+    height: auto;
+    border-radius: 10px;
+}
+
+
+
+/*
+Footer---------------------------------------------------------------------------------------------
+*/
+footer{
+    width: 100%;
+    background-color: rgb(48, 48, 48);
+    text-align: left;
+    margin-top: 0px;
+    padding-top: 20px;
+    color: darkgray;
+}
+
+.footersections{
+    padding-left: 100px;
+    padding-right: 100px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.about h1, .categories h1, .quicklinks h1{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    max-width: 500px;
+    color: white;
+}
+
+.about h3{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    max-width: 500px;
+}
+
+.categories li, .quicklinks li{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    display: block;
+    padding-bottom: 2px;
+}
+
+footer h6{
+    padding-left: 100px;
+    padding-right: 100px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: 12px;
+    padding-bottom: 30px;
+}
+
+a{
+    color: darkgray;
+    text-decoration: none;
+}
+
+a:hover{
+    color: darkorange;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+Sign up page---------------------------------------------------------------------------------------
+*/
+.signupmodal{
+    margin-top: 100px;
+    border: 2px solid black;
+    border-radius: 20px;
+    height: 600px;
+    min-width: 900px;
+    max-width: 900px;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signupmodal h3{
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    text-align: center;
+}
+
+.signupname, .signuppass{
+    display: flex;
+    justify-content: space-between;
+}

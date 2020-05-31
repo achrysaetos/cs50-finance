@@ -1,0 +1,40 @@
+{% extends "LAYOUT.html" %}
+{% block body %}
+
+<main>
+    <div class="jumbotron" style="background-image: url('images/hot1.jpg');">
+        <div class="flexalign">
+            <form action="/login" method="post" style="float:right" class="signupmodal" autocomplete="off">
+                <div class="modalhead">
+                    ACHRYSAETOS
+                </div>
+                <h3>Create an account. Sign up to continue.</h3>
+                <div class="container">
+                    <div class="signupname">
+                        <input type="text" placeholder="First name" name="fname" required>
+                        <input type="text" placeholder="Last name" name="lname" required>
+                    </div>
+                    <input type="text" placeholder="Email address" name="uname" required>
+                    <div class="signuppass">
+                        <input type="password" placeholder="Password" name="pword" required>
+                        <input type="password" placeholder="Confirm" required>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <button class="next">Next</button>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <label class="modaltxtlower">
+                        <input type="checkbox" checked="checked" name="remember"> I accept the Terms of Use and Privacy
+                        Policy
+                    </label>
+                    <span class="modaltxtlower" style="float:right"><a href="/login">Sign in instead</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

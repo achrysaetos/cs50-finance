@@ -1,0 +1,152 @@
+{% extends "LAYOUT.html" %}
+{% block body %}
+
+<main>
+    <div class="jumbotron">
+        <div class="flexalign">
+            <div class="intro">
+                <h1>Short Catchphrase Here.</h1>
+                <h2>Longer informational blurb that expands on the catchphrase above.</h2>
+                <button class="learnmore" type="button" onclick="location.href='#skiphere'">Learn more</button>
+                <button class="getstarted" type="button" onclick="location.href='/signup'">Get started</button>
+            </div>
+
+            <form action="/dashboard" method="post" style="float:right" class="loginmodal" autocomplete="off">
+                <div class="modalhead">
+                    Sign in to ACHRYSAETOS
+                </div>
+
+                <div class="container">
+                    <label class="modaltxt" for="uname">Username</label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                    <label class="modaltxt" for="pword">Password</label>
+                    <input type="password" placeholder="Enter Password" name="pword" required>
+
+                    <div style="text-align: center;">
+                        <button class="next">Next</button>
+                        <button type="button" class="create" onclick="location.href='/signup'">Create an account</button>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <label class="modaltxtlower">
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                    <span class="modaltxtlower" style="float:right"><a href="/forgot">Forgot password?</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<div class="sponsors" id="skiphere">
+    <h1>Our Sponsors</h1>
+    <ul>
+        <li id="sponsornames">ACHRYSAETOS</li>
+        <li id="sponsornames">ACHRYSAETOS</li>
+        <li id="sponsornames">ACHRYSAETOS</li>
+        <li id="sponsornames">ACHRYSAETOS</li>
+        <li id="sponsornames">ACHRYSAETOS</li>
+        <li id="sponsornames">ACHRYSAETOS</li>
+    </ul>
+</div>
+
+<div class="carousel">
+    <div class="carouselitem">
+        <img src="images/tom_face.jpg" class="carouselimg">
+        <h1>Feature 1</h1>
+        <h3>
+            Description of the first feature. Description of the first feature.
+            Description of the first feature. Description of the first feature.
+        </h3>
+    </div>
+
+    <div class="carouselitem">
+        <img src="images/romee_face.jpg" class="carouselimg">
+        <h1>Feature 2</h1>
+        <h3>
+            Description of the second feature. Description of the second feature.
+            Description of the second feature. Description of the second feature.
+        </h3>
+    </div>
+
+    <div class="carouselitem">
+        <img src="images/gordon_face.jpg" class="carouselimg">
+        <h1>Feature 3</h1>
+        <h3>
+            Description of the third feature. Description of the third feature.
+            Description of the third feature. Description of the third feature.
+        </h3>
+    </div>
+</div>
+
+<div class="testimonials">
+    <h1>User Testimonials</h1>
+    <div class="revwbuttons">
+        <button class="revbutton">←</button>
+        <div class="userreview">
+            <img src="images/zen.jpeg">
+            <div class="reviewtxt">
+                <h2>Zen Tang</h2>
+                <h3>
+                    "Zen says this product is great! Zen says this product is great!
+                    Zen says this product is great! Zen says this product is great!
+                    Zen says this product is great! Zen says this product is great!"
+                </h3>
+                <h4>-- New Haven, CT</h4>
+            </div>
+        </div>
+        <button class="revbutton">→</button>
+    </div>
+</div>
+
+<div class="section">
+    <div class="info">
+        <h1>Title of Section 1</h1>
+        <h3>
+            Body of first section. Body of first section. Body of first section.
+            Body of first section. Body of first section. Body of first section.
+            Body of first section. Body of first section. Body of first section.
+            Body of first section. Body of first section. Body of first section.
+            Body of first section. Body of first section. Body of first section.
+        </h3>
+    </div>
+    <img src="images/sectionimg1.jpg" class="sectionimg">
+</div>
+
+<hr>
+
+<div class="section">
+    <img src="images/sectionimg2.jpg" class="sectionimg">
+    <div class="info">
+        <h1>Title of Section 2</h1>
+        <h3>
+            Body of second section. Body of second section. Body of second section.
+            Body of second section. Body of second section. Body of second section.
+            Body of second section. Body of second section. Body of second section.
+            Body of second section. Body of second section. Body of second section.
+            Body of second section. Body of second section. Body of second section.
+        </h3>
+    </div>
+</div>
+
+<hr>
+
+<div class="section">
+    <div class="info">
+        <h1>Title of Section 2</h1>
+        <h3>
+            Body of third section. Body of third section. Body of third section.
+            Body of third section. Body of third section. Body of third section.
+            Body of third section. Body of third section. Body of third section.
+            Body of third section. Body of third section. Body of third section.
+            Body of third section. Body of third section. Body of third section.
+        </h3>
+    </div>
+    <img src="images/sectionimg3.jpg" class="sectionimg">
+</div>
+
+<br><br><br>
+
+{% endblock %}
