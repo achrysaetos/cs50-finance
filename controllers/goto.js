@@ -85,7 +85,7 @@ exports.buy_post = async (req, res) => {
     var user = req.session.userID;
     try {
         let userjson = await User.findOne({
-            user
+            uname: user
         });
         var url = "https://cloud-sse.iexapis.com/stable/stock/" + req.body.quotesymbol + "/quote?token=" + api_key;
         var xhr = new XMLHttpRequest();
