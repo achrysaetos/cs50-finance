@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var PortfolioSchema = new Schema(
     {
+        client: {type:String, required: true},
         symbol: {type:String, required: true},
         companyName: {type:String, required: true},
         latestPrice: {type:Number, required: true},

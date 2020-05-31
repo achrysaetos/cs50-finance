@@ -40,8 +40,7 @@ exports.forgot = function (req, res) {
 
 exports.dashboard = function (req, res) {
     if (!req.session.userID) {
-        //res.redirect("login");
-        res.render("dashboard");
+        res.redirect("login");
     } else {
         res.render("dashboard");
     }
@@ -61,7 +60,7 @@ exports.quote = (req, res) => {
     res.render("quote");
 }
 exports.quote_post = (req, res) => {
-    var url = "https://cloud-sse.iexapis.com/stable/stock/"+req.body.quotesymbol+"/quote?token="+api_key;
+    var url = "https://cloud-sse.iexapis.com/stable/stock/" + req.body.quotesymbol + "/quote?token=" + api_key;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, false);
     xhr.send(null);
@@ -82,26 +81,48 @@ exports.quote_post = (req, res) => {
 exports.buy = (req, res) => {
     res.render("buy");
 }
-exports.buy_post = (req, res) => {
-    var url = "https://cloud-sse.iexapis.com/stable/stock/"+req.body.quotesymbol+"/quote?token="+api_key;
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, false);
-    xhr.send(null);
+exports.buy_post = async (req, res) => {
+    var user = req.session.userID;
+    try {
+        let userjson = await User.findOne({
+            user
+        });
+        var url = "https://cloud-sse.iexapis.com/stable/stock/" + req.body.quotesymbol + "/quote?token=" + api_key;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, false);
+        xhr.send(null);
 
-    var jsonquery = JSON.parse(xhr.responseText);
-    var numshares = req.body.buyshares;
-    var totalspent = jsonquery.latestPrice.toFixed(2)*numshares;
-    var totalleft = 10000-totalspent;
+        var client = userjson.uname;
+        var jsonquery = JSON.parse(xhr.responseText);
+        var symbol = jsonquery.symbol;
+        var companyName = jsonquery.companyName;
+        var latestPrice = jsonquery.latestPrice;
+        var numshares = req.body.buyshares;
+        var totalspent = jsonquery.latestPrice * numshares;
+        var totalleft = 10000 - totalspent;
 
-    res.render("buy_posted", {
-        symbol: jsonquery.symbol,
-        companyName: jsonquery.companyName,
-        latestPrice: jsonquery.latestPrice.toFixed(2),
-        numshares: numshares,
-        totalspent: totalspent.toFixed(2),
-        totalleft: totalleft.toFixed(2)
-    });
-}
+        portfolio = new Portfolio({ client, symbol, companyName, latestPrice, numshares, totalspent, totalleft });
+
+        await portfolio.save(function (err) {
+            if (err) { return next(err); }
+            res.render("buy_posted", {
+                symbol: symbol,
+                companyName: companyName,
+                latestPrice: latestPrice.toFixed(2),
+                numshares: numshares,
+                totalspent: totalspent.toFixed(2),
+                totalleft: totalleft.toFixed(2)
+            });
+        });
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send("Error in Saving");
+    }
+};
+
+
+
 
 
 
@@ -124,7 +145,7 @@ exports.login_post = async (req, res) => {
                 message: "Incorrect Password!"
             });
 
-        req.session.userID = user.pword;
+        req.session.userID = user.uname;
         await res.redirect("dashboard");
 
     } catch (e) {

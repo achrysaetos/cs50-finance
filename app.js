@@ -37,7 +37,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 3000,
+        maxAge: 30000000,
         sameSite: true//helps to prevent CSRF attacks
     }
 }));//to use express-session
