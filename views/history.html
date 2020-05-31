@@ -1,0 +1,38 @@
+{% extends "LAYOUT2.html" %}
+{% block body %}
+
+<div class="history">
+    <div class="modalhead">
+        History
+    </div>
+
+    <div class="container">
+        <table style="table-layout: fixed; width: 95%;">
+            <thead>
+                <th style="text-decoration: underline;">Symbol</th>
+                <th style="text-decoration: underline;">Name</th>
+                <th style="text-decoration: underline;">Shares</th>
+                <th style="text-decoration: underline;">Price</th>
+                <th style="text-decoration: underline;">Transacted</th>
+            </thead>
+            <tbody>
+                {% for purchase in purchasesarray %}
+                <tr>
+                    <td style="text-align: center;">{{purchase.symbol}}</td>
+                    <td style="text-align: center;">{{purchase.companyName}}</td>
+                    <td style="text-align: center;">{{purchase.numshares}}</td>
+                    <td style="text-align: center;">{{purchase.latestPrice}}</td>
+                    <td style="text-align: center;">{{purchase.date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="text-align: center;">
+            <button type="button" class="quote" onclick="location.href='/dashboard'">OK</button>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

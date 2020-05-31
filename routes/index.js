@@ -28,4 +28,7 @@ router.post("/quote", goto.quote_post);
 router.get("/buy", goto.buy);
 router.post("/buy", goto.buy_post);
 
+router.get("/portfolio", goto.portfolio);
+router.get("/history", goto.history);
+
 module.exports = router;

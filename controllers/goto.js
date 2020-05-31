@@ -57,9 +57,13 @@ exports.logout = function (req, res) {
 };
 
 exports.quote = (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
     res.render("quote");
 }
 exports.quote_post = (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
     var url = "https://cloud-sse.iexapis.com/stable/stock/" + req.body.quotesymbol + "/quote?token=" + api_key;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, false);
@@ -79,9 +83,13 @@ exports.quote_post = (req, res) => {
 }
 
 exports.buy = (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
     res.render("buy");
 }
 exports.buy_post = async (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
     var user = req.session.userID;
     try {
         let userjson = await User.findOne({
@@ -94,6 +102,7 @@ exports.buy_post = async (req, res) => {
 
         var client = userjson.uname;
         var jsonquery = JSON.parse(xhr.responseText);
+        var date = Date(Date.now());
         var symbol = jsonquery.symbol;
         var companyName = jsonquery.companyName;
         var latestPrice = jsonquery.latestPrice;
@@ -101,7 +110,7 @@ exports.buy_post = async (req, res) => {
         var totalspent = jsonquery.latestPrice * numshares;
         var totalleft = 10000 - totalspent;
 
-        portfolio = new Portfolio({ client, symbol, companyName, latestPrice, numshares, totalspent, totalleft });
+        portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent, totalleft });
 
         await portfolio.save(function (err) {
             if (err) { return next(err); }
@@ -120,9 +129,31 @@ exports.buy_post = async (req, res) => {
         res.status(500).send("Error in Saving");
     }
 };
+//still need to make sure numshares is an int and also update totalleft to reflect current portfolio
+exports.history = async (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
+    var user = req.session.userID;
+    try {
+        let purchasesarray = await Portfolio.find({
+            client: user
+        });
 
+        await res.render("history", {
+            purchasesarray: purchasesarray
+        });
 
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send("Error");
+    }
+};
 
+exports.portfolio = (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
+    res.render("portfolio");
+}
 
 
 
