@@ -129,7 +129,7 @@ exports.buy_post = async (req, res) => {
         res.status(500).send("Error in Saving");
     }
 };
-//still need to make sure numshares is an int and also update totalleft to reflect current portfolio
+
 exports.history = async (req, res) => {
     if (!req.session.userID)
         res.redirect("login");
@@ -149,10 +149,23 @@ exports.history = async (req, res) => {
     }
 };
 
-exports.portfolio = (req, res) => {
+exports.portfolio = async (req, res) => {
     if (!req.session.userID)
         res.redirect("login");
-    res.render("portfolio");
+    var user = req.session.userID;
+    try {
+        let purchasesarray = await Portfolio.find({
+            client: user
+        });
+
+        await res.render("portfolio", {
+            purchasesarray: purchasesarray
+        });
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send("Error");
+    }
 }
 
 
