@@ -16,13 +16,13 @@
                 <th style="text-decoration: underline;">TOTAL</th>
             </thead>
             <tbody>
-                {% for purchase in purchasesarray %}
+                {% for stocks in newstocksarray %}
                 <tr>
-                    <td style="text-align: center; padding-top:20px; padding-bottom: 20px;">{{purchase.symbol}}</td>
-                    <td style="text-align: center;">{{purchase.companyName}}</td>
-                    <td style="text-align: center;">{{purchase.numshares}}</td>
-                    <td style="text-align: center;">{{purchase.latestPrice}}</td>
-                    <td style="text-align: center;">{{purchase.totalspent}}</td>
+                    <td style="text-align: center; padding-top:20px; padding-bottom: 20px;">{{stocks.symbol}}</td>
+                    <td style="text-align: center;">{{stocks.companyName}}</td>
+                    <td style="text-align: center;">{{stocks.currentShares}}</td>
+                    <td style="text-align: center;">{{stocks.currentPrice}}</td>
+                    <td style="text-align: center;">{{stocks.currentTotal}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

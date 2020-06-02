@@ -108,7 +108,6 @@ exports.buy_post = async (req, res) => {
         var latestPrice = jsonquery.latestPrice;
         var numshares = req.body.buyshares;
         var totalspent = jsonquery.latestPrice * numshares;
-        //var totalleft = 10000 - totalspent;
 
         try {
             let userjson2 = await Portfolio_current.findOne({
@@ -123,7 +122,7 @@ exports.buy_post = async (req, res) => {
             var currentPrice = latestPrice;
             var currentShares = numshares;
             var currentTotal = totalspent;
-            
+
         } finally {
             portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
             portfolio_current = new Portfolio_current({ client, symbol, companyName, currentPrice, currentShares, currentTotal });
@@ -153,6 +152,44 @@ exports.buy_post = async (req, res) => {
     }
 };
 
+exports.portfolio = async (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
+    var user = req.session.userID;
+    try {
+        let stocksarray = await Portfolio_current.find({
+            client: user
+        });
+        for (stocks of stocksarray) {
+            var url = "https://cloud-sse.iexapis.com/stable/stock/" + stocks.symbol + "/quote?token=" + api_key;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, false);
+            xhr.send(null);
+
+            var jsonquery = JSON.parse(xhr.responseText);
+            var currentPrice = jsonquery.latestPrice;
+            var currentTotal = currentPrice*stocks.currentShares;
+            await Portfolio_current.update(
+                { "symbol": stocks.symbol },
+                {
+                    $set: { "currentPrice": currentPrice, "currentTotal": currentTotal }
+                }
+            );
+        }
+
+        let newstocksarray = await Portfolio_current.find({
+            client: user
+        });
+        await res.render("portfolio", {
+            newstocksarray: newstocksarray
+        });
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send("Error");
+    }
+}
+
 exports.history = async (req, res) => {
     if (!req.session.userID)
         res.redirect("login");
@@ -171,25 +208,6 @@ exports.history = async (req, res) => {
         res.status(500).send("Error");
     }
 };
-
-exports.portfolio = async (req, res) => {
-    if (!req.session.userID)
-        res.redirect("login");
-    var user = req.session.userID;
-    try {
-        let purchasesarray = await Portfolio.find({
-            client: user
-        });
-
-        await res.render("portfolio", {
-            purchasesarray: purchasesarray
-        });
-
-    } catch (err) {
-        console.log(err.message);
-        res.status(500).send("Error");
-    }
-}
 
 
 
