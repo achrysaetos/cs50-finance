@@ -152,6 +152,76 @@ exports.buy_post = async (req, res) => {
     }
 };
 
+exports.sell = (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
+    res.render("sell");
+}
+exports.sell_post = async (req, res) => {
+    if (!req.session.userID)
+        res.redirect("login");
+    var user = req.session.userID;
+    try {
+        let userjson = await User.findOne({
+            uname: user
+        });
+        var url = "https://cloud-sse.iexapis.com/stable/stock/" + req.body.quotesymbol + "/quote?token=" + api_key;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, false);
+        xhr.send(null);
+
+        var client = userjson.uname;
+        var jsonquery = JSON.parse(xhr.responseText);
+        var date = Date(Date.now());
+        var symbol = jsonquery.symbol;
+        var companyName = jsonquery.companyName;
+        var latestPrice = jsonquery.latestPrice;
+        var numshares = -req.body.sellshares;
+        var totalspent = jsonquery.latestPrice * numshares;
+
+        try {
+            let userjson2 = await Portfolio_current.findOne({
+                client, symbol, companyName
+            });
+
+            var currentPrice = latestPrice;
+            var currentShares = +numshares + userjson2.currentShares;
+            var currentTotal = totalspent;
+
+        } catch {
+            var currentPrice = latestPrice;
+            var currentShares = numshares;
+            var currentTotal = totalspent;
+
+        } finally {
+            portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
+            portfolio_current = new Portfolio_current({ client, symbol, companyName, currentPrice, currentShares, currentTotal });
+
+            await Portfolio_current.update(
+                { "symbol": symbol, "client": client, "companyName": companyName },
+                {
+                    $set: { "currentShares": currentShares },
+                    $setOnInsert: { "currentPrice": latestPrice, "currentTotal": totalspent }
+                },
+                { upsert: true });
+            await portfolio.save(function (err) {
+                if (err) { return next(err); }
+                res.render("sell_posted", {
+                    symbol: symbol,
+                    companyName: companyName,
+                    latestPrice: latestPrice.toFixed(2),
+                    numshares: -numshares,
+                    totalspent: -totalspent.toFixed(2)
+                });
+            });
+        }
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send("Error in Saving");
+    }
+};
+
 exports.portfolio = async (req, res) => {
     if (!req.session.userID)
         res.redirect("login");
