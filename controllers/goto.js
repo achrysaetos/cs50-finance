@@ -7,7 +7,7 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;//in order to get 
 
 var User = require("../models/user");
 var Portfolio = require("../models/portfolio");
-
+var Portfolio_current = require("../models/portfolio_current");
 
 
 exports.home = function (req, res) {
@@ -108,21 +108,44 @@ exports.buy_post = async (req, res) => {
         var latestPrice = jsonquery.latestPrice;
         var numshares = req.body.buyshares;
         var totalspent = jsonquery.latestPrice * numshares;
-        var totalleft = 10000 - totalspent;
+        //var totalleft = 10000 - totalspent;
 
-        portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent, totalleft });
-
-        await portfolio.save(function (err) {
-            if (err) { return next(err); }
-            res.render("buy_posted", {
-                symbol: symbol,
-                companyName: companyName,
-                latestPrice: latestPrice.toFixed(2),
-                numshares: numshares,
-                totalspent: totalspent.toFixed(2),
-                totalleft: totalleft.toFixed(2)
+        try {
+            let userjson2 = await Portfolio_current.findOne({
+                client, symbol, companyName
             });
-        });
+
+            var currentPrice = latestPrice;
+            var currentShares = +numshares + userjson2.currentShares;
+            var currentTotal = totalspent;
+
+        } catch {
+            var currentPrice = latestPrice;
+            var currentShares = numshares;
+            var currentTotal = totalspent;
+            
+        } finally {
+            portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
+            portfolio_current = new Portfolio_current({ client, symbol, companyName, currentPrice, currentShares, currentTotal });
+
+            await Portfolio_current.update(
+                { "symbol": symbol, "client": client, "companyName": companyName },
+                {
+                    $set: { "currentShares": currentShares },
+                    $setOnInsert: { "currentPrice": latestPrice, "currentTotal": totalspent }
+                },
+                { upsert: true });
+            await portfolio.save(function (err) {
+                if (err) { return next(err); }
+                res.render("buy_posted", {
+                    symbol: symbol,
+                    companyName: companyName,
+                    latestPrice: latestPrice.toFixed(2),
+                    numshares: numshares,
+                    totalspent: totalspent.toFixed(2)
+                });
+            });
+        }
 
     } catch (err) {
         console.log(err.message);

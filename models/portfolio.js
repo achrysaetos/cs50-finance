@@ -9,8 +9,7 @@ var PortfolioSchema = new Schema(
         companyName: {type:String, required: true},
         latestPrice: {type:Number, required: true},
         numshares: {type:Number, required: true},
-        totalspent: {type:Number, required: true},
-        totalleft: {type:Number, required: true}
+        totalspent: {type:Number, required: true}
     }
 );
 
