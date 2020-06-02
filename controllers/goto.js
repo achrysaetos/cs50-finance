@@ -240,7 +240,7 @@ exports.portfolio = async (req, res) => {
             var currentPrice = jsonquery.latestPrice;
             var currentTotal = currentPrice*stocks.currentShares;
             await Portfolio_current.update(
-                { "symbol": stocks.symbol },
+                { "client": user, "symbol": stocks.symbol },
                 {
                     $set: { "currentPrice": currentPrice, "currentTotal": currentTotal }
                 }
