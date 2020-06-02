@@ -9,6 +9,8 @@ var Portfolio_currentSchema = new Schema(
         currentPrice: {type:Number, required: true},
         currentShares: {type:Number, required: true},
         currentTotal: {type:Number, required: true},
+        totalCash: {type:Number, required: true},
+        totalMoney: {type:Number, required: true}
     }
 );
 

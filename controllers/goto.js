@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");//after we npm install bcryptjs
 
 var api_key = "pk_f83525dace814340bdc3798e1a01e265";//remove this and set as environment variable instead!
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;//in order to get json from http url
+var endowment = 10000;
 
 var User = require("../models/user");
 var Portfolio = require("../models/portfolio");
@@ -117,23 +118,41 @@ exports.buy_post = async (req, res) => {
             var currentPrice = latestPrice;
             var currentShares = +numshares + userjson2.currentShares;
             var currentTotal = totalspent;
+            var totalCash = endowment - currentTotal;
+            endowment = endowment - currentTotal;
+            var totalMoney = 0;
 
         } catch {
             var currentPrice = latestPrice;
             var currentShares = numshares;
             var currentTotal = totalspent;
+            var totalCash = endowment - currentTotal;
+            endowment = endowment - currentTotal;
+            var totalMoney = 0;
 
         } finally {
             portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
-            portfolio_current = new Portfolio_current({ client, symbol, companyName, currentPrice, currentShares, currentTotal });
+            portfolio_current = new Portfolio_current({
+                client, symbol, companyName, currentPrice,
+                currentShares, currentTotal, totalCash, totalMoney
+            });
 
             await Portfolio_current.update(
                 { "symbol": symbol, "client": client, "companyName": companyName },
                 {
                     $set: { "currentShares": currentShares },
-                    $setOnInsert: { "currentPrice": latestPrice, "currentTotal": totalspent }
+                    $setOnInsert: {
+                        "currentPrice": currentPrice, "currentTotal": currentTotal,
+                        "totalCash": totalCash, "totalMoney": totalMoney
+                    }
                 },
                 { upsert: true });
+            await Portfolio_current.update(
+                { "client": client },
+                {
+                    $set: { "totalCash": totalCash }
+                },
+                { multi: true });
             await portfolio.save(function (err) {
                 if (err) { return next(err); }
                 res.render("buy_posted", {
@@ -187,6 +206,8 @@ exports.sell_post = async (req, res) => {
             var currentPrice = latestPrice;
             var currentShares = +numshares + userjson2.currentShares;
             var currentTotal = totalspent;
+            var totalCash = userjson2.totalCash - totalspent;
+            var totalMoney = 0;
 
         } catch {
             var currentPrice = latestPrice;
@@ -195,15 +216,27 @@ exports.sell_post = async (req, res) => {
 
         } finally {
             portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
-            portfolio_current = new Portfolio_current({ client, symbol, companyName, currentPrice, currentShares, currentTotal });
+            portfolio_current = new Portfolio_current({
+                client, symbol, companyName, currentPrice,
+                currentShares, currentTotal, totalCash, totalMoney
+            });
 
             await Portfolio_current.update(
                 { "symbol": symbol, "client": client, "companyName": companyName },
                 {
                     $set: { "currentShares": currentShares },
-                    $setOnInsert: { "currentPrice": latestPrice, "currentTotal": totalspent }
+                    $setOnInsert: {
+                        "currentPrice": currentPrice, "currentTotal": currentTotal,
+                        "totalCash": totalCash, "totalMoney": totalMoney
+                    }
                 },
                 { upsert: true });
+            await Portfolio_current.update(
+                { "client": client },
+                {
+                    $set: { "totalCash": totalCash }
+                },
+                { multi: true });
             await portfolio.save(function (err) {
                 if (err) { return next(err); }
                 res.render("sell_posted", {
@@ -230,6 +263,7 @@ exports.portfolio = async (req, res) => {
         let stocksarray = await Portfolio_current.find({
             client: user
         });
+        var totalMoney = stocksarray[0].totalCash;
         for (stocks of stocksarray) {
             var url = "https://cloud-sse.iexapis.com/stable/stock/" + stocks.symbol + "/quote?token=" + api_key;
             var xhr = new XMLHttpRequest();
@@ -238,11 +272,12 @@ exports.portfolio = async (req, res) => {
 
             var jsonquery = JSON.parse(xhr.responseText);
             var currentPrice = jsonquery.latestPrice;
-            var currentTotal = currentPrice*stocks.currentShares;
+            var currentTotal = currentPrice * stocks.currentShares;
+            totalMoney = totalMoney + stocks.currentTotal;
             await Portfolio_current.update(
                 { "client": user, "symbol": stocks.symbol },
                 {
-                    $set: { "currentPrice": currentPrice, "currentTotal": currentTotal }
+                    $set: { "currentPrice": currentPrice, "currentTotal": currentTotal, "totalMoney": totalMoney }
                 }
             );
         }
