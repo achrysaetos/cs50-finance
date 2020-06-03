@@ -4,12 +4,12 @@ const bcrypt = require("bcryptjs");//after we npm install bcryptjs
 
 var api_key = "pk_f83525dace814340bdc3798e1a01e265";//remove this and set as environment variable instead!
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;//in order to get json from http url
-var endowment = 10000;
 
 var User = require("../models/user");
 var Portfolio = require("../models/portfolio");
 var Portfolio_current = require("../models/portfolio_current");
 
+/*-------------------------------------------------------------------------------------------------*/
 
 exports.home = function (req, res) {
     res.render("index");
@@ -39,6 +39,8 @@ exports.forgot = function (req, res) {
     res.render("forgot");
 };
 
+/*-------------------------------------------------------------------------------------------------*/
+
 exports.dashboard = function (req, res) {
     if (!req.session.userID) {
         res.redirect("login");
@@ -56,6 +58,8 @@ exports.logout = function (req, res) {
         res.redirect("login");
     });
 };
+
+/*-------------------------------------------------------------------------------------------------*/
 
 exports.quote = (req, res) => {
     if (!req.session.userID)
@@ -82,6 +86,8 @@ exports.quote_post = (req, res) => {
         latestPrice: jsonquery.latestPrice.toFixed(2)
     });
 }
+
+/*-------------------------------------------------------------------------------------------------*/
 
 exports.buy = (req, res) => {
     if (!req.session.userID)
@@ -120,7 +126,6 @@ exports.buy_post = async (req, res) => {
             var currentTotal = totalspent;
             var totalCash = endowment - currentTotal;
             endowment = endowment - currentTotal;
-            var totalMoney = 0;
 
         } catch {
             var currentPrice = latestPrice;
@@ -128,13 +133,12 @@ exports.buy_post = async (req, res) => {
             var currentTotal = totalspent;
             var totalCash = endowment - currentTotal;
             endowment = endowment - currentTotal;
-            var totalMoney = 0;
 
         } finally {
             portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
             portfolio_current = new Portfolio_current({
                 client, symbol, companyName, currentPrice,
-                currentShares, currentTotal, totalCash, totalMoney
+                currentShares, currentTotal, totalCash
             });
 
             await Portfolio_current.update(
@@ -142,8 +146,7 @@ exports.buy_post = async (req, res) => {
                 {
                     $set: { "currentShares": currentShares },
                     $setOnInsert: {
-                        "currentPrice": currentPrice, "currentTotal": currentTotal,
-                        "totalCash": totalCash, "totalMoney": totalMoney
+                        "currentPrice": currentPrice, "currentTotal": currentTotal, "totalCash": totalCash
                     }
                 },
                 { upsert: true });
@@ -170,6 +173,8 @@ exports.buy_post = async (req, res) => {
         res.status(500).send("Error in Saving");
     }
 };
+
+/*-------------------------------------------------------------------------------------------------*/
 
 exports.sell = (req, res) => {
     if (!req.session.userID)
@@ -207,18 +212,16 @@ exports.sell_post = async (req, res) => {
             var currentShares = +numshares + userjson2.currentShares;
             var currentTotal = totalspent;
             var totalCash = userjson2.totalCash - totalspent;
-            var totalMoney = 0;
 
-        } catch {
-            var currentPrice = latestPrice;
-            var currentShares = numshares;
-            var currentTotal = totalspent;
+        } catch (err) {
+            console.log(err.message);
+            res.status(500).send("ERROR");
 
         } finally {
             portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
             portfolio_current = new Portfolio_current({
                 client, symbol, companyName, currentPrice,
-                currentShares, currentTotal, totalCash, totalMoney
+                currentShares, currentTotal, totalCash
             });
 
             await Portfolio_current.update(
@@ -226,8 +229,7 @@ exports.sell_post = async (req, res) => {
                 {
                     $set: { "currentShares": currentShares },
                     $setOnInsert: {
-                        "currentPrice": currentPrice, "currentTotal": currentTotal,
-                        "totalCash": totalCash, "totalMoney": totalMoney
+                        "currentPrice": currentPrice, "currentTotal": currentTotal, "totalCash": totalCash
                     }
                 },
                 { upsert: true });
@@ -255,6 +257,8 @@ exports.sell_post = async (req, res) => {
     }
 };
 
+/*-------------------------------------------------------------------------------------------------*/
+
 exports.portfolio = async (req, res) => {
     if (!req.session.userID)
         res.redirect("login");
@@ -263,37 +267,66 @@ exports.portfolio = async (req, res) => {
         let stocksarray = await Portfolio_current.find({
             client: user
         });
-        var totalMoney = stocksarray[0].totalCash;
-        for (stocks of stocksarray) {
-            var url = "https://cloud-sse.iexapis.com/stable/stock/" + stocks.symbol + "/quote?token=" + api_key;
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", url, false);
-            xhr.send(null);
+        try {
+            var totalMoney = stocksarray[0].totalCash;
+            for (stocks of stocksarray) {
+                var url = "https://cloud-sse.iexapis.com/stable/stock/" + stocks.symbol + "/quote?token=" + api_key;
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", url, false);
+                xhr.send(null);
 
-            var jsonquery = JSON.parse(xhr.responseText);
-            var currentPrice = jsonquery.latestPrice;
-            var currentTotal = currentPrice * stocks.currentShares;
-            totalMoney = totalMoney + stocks.currentTotal;
-            await Portfolio_current.update(
-                { "client": user, "symbol": stocks.symbol },
-                {
-                    $set: { "currentPrice": currentPrice, "currentTotal": currentTotal, "totalMoney": totalMoney }
-                }
-            );
+                var jsonquery = JSON.parse(xhr.responseText);
+                var currentPrice = jsonquery.latestPrice;
+                var currentTotal = currentPrice * stocks.currentShares;
+                await Portfolio_current.update(
+                    { "client": user, "symbol": stocks.symbol },
+                    {
+                        $set: { "currentPrice": currentPrice, "currentTotal": currentTotal }
+                    }
+                );
+            }
+            var newstocksarray = await Portfolio_current.find({
+                client: user
+            });
+            for (newstocks of newstocksarray) {
+                totalMoney = totalMoney + newstocks.currentTotal;
+            }
+            var totalCash = newstocksarray[0].totalCash;
+        } catch {
+            var totalMoney = endowment;
+            for (stocks of stocksarray) {
+                var url = "https://cloud-sse.iexapis.com/stable/stock/" + stocks.symbol + "/quote?token=" + api_key;
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", url, false);
+                xhr.send(null);
+
+                var jsonquery = JSON.parse(xhr.responseText);
+                var currentPrice = jsonquery.latestPrice;
+                var currentTotal = currentPrice * stocks.currentShares;
+
+                await Portfolio_current.update(
+                    { "client": user, "symbol": stocks.symbol },
+                    {
+                        $set: { "currentPrice": currentPrice, "currentTotal": currentTotal }
+                    }
+                );
+            }
+            var newstocksarray = await Portfolio_current.find({
+                client: user
+            });
+            var totalCash = endowment;
+        } finally {
+            await res.render("portfolio", {
+                newstocksarray: newstocksarray, totalMoney: totalMoney, totalCash: totalCash
+            });
         }
-
-        let newstocksarray = await Portfolio_current.find({
-            client: user
-        });
-        await res.render("portfolio", {
-            newstocksarray: newstocksarray
-        });
-
     } catch (err) {
         console.log(err.message);
         res.status(500).send("Error");
     }
 }
+
+/*-------------------------------------------------------------------------------------------------*/
 
 exports.history = async (req, res) => {
     if (!req.session.userID)
@@ -314,7 +347,7 @@ exports.history = async (req, res) => {
     }
 };
 
-
+/*-------------------------------------------------------------------------------------------------*/
 
 exports.login_post = async (req, res) => {
     const { uname, pword } = req.body;
@@ -363,6 +396,7 @@ exports.signup_post = async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
         user.pword = await bcrypt.hash(pword, salt);
+        endowment = 10000;
 
         await user.save(function (err) {
             if (err) { return next(err); }

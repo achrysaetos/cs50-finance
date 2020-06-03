@@ -25,8 +25,17 @@
                     <td style="text-align: center;">{{stocks.currentTotal}}</td>
                 </tr>
                 {% endfor %}
+                <tr>
+                    <td style="text-align: center; padding-top:20px; padding-bottom: 20px;">CASH</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center;">{{totalCash}}</td>
+                </tr>
             </tbody>
         </table>
+
+        <h3>Total Value: {{totalMoney}}</h3>
 
         <div style="text-align: center;">
             <button type="button" class="quote" onclick="location.href='/dashboard'">OK</button>
