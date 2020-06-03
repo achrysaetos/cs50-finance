@@ -21,8 +21,8 @@
                     <td style="text-align: center; padding-top:20px; padding-bottom: 20px;">{{stocks.symbol}}</td>
                     <td style="text-align: center;">{{stocks.companyName}}</td>
                     <td style="text-align: center;">{{stocks.currentShares}}</td>
-                    <td style="text-align: center;">{{stocks.currentPrice}}</td>
-                    <td style="text-align: center;">{{stocks.currentTotal}}</td>
+                    <td style="text-align: center;">${{stocks.currentPrice.toFixed(2)}}</td>
+                    <td style="text-align: center;">${{stocks.currentTotal.toFixed(2)}}</td>
                 </tr>
                 {% endfor %}
                 <tr>
@@ -30,12 +30,12 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style="text-align: center;">{{totalCash}}</td>
+                    <td style="text-align: center;">${{totalCash.toFixed(2)}}</td>
                 </tr>
             </tbody>
         </table>
 
-        <h3>Total Value: {{totalMoney}}</h3>
+        <h3>Total Value: ${{totalMoney.toFixed(2)}}</h3>
 
         <div style="text-align: center;">
             <button type="button" class="quote" onclick="location.href='/dashboard'">OK</button>

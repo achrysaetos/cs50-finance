@@ -75,17 +75,24 @@ exports.quote_post = (req, res) => {
     xhr.send(null);
 
     var jsonquery = JSON.parse(xhr.responseText);
-
-    res.render("quote_posted", {
-        symbol: jsonquery.symbol,
-        companyName: jsonquery.companyName,
-        open: jsonquery.open.toFixed(2),
-        high: jsonquery.high.toFixed(2),
-        low: jsonquery.low.toFixed(2),
-        close: jsonquery.close.toFixed(2),
-        latestPrice: jsonquery.latestPrice.toFixed(2)
-    });
-}
+    var symbol = jsonquery.symbol;
+    var companyName = jsonquery.companyName;
+    var latestPrice = jsonquery.latestPrice.toFixed(2);
+    try {
+        var open = jsonquery.open.toFixed(2);
+        var close = jsonquery.close.toFixed(2);
+        var high = jsonquery.high.toFixed(2);
+        var low = jsonquery.low.toFixed(2);
+        res.render("quote_posted", {
+            symbol: symbol, companyName: companyName, latestPrice: latestPrice,
+            open: open, close: close, high: high, low: low
+        });
+    } catch {
+        res.render("quote_posted", {
+            symbol: symbol, companyName: companyName, latestPrice: latestPrice
+        });
+    }
+};
 
 /*-------------------------------------------------------------------------------------------------*/
 
@@ -161,9 +168,9 @@ exports.buy_post = async (req, res) => {
                 res.render("buy_posted", {
                     symbol: symbol,
                     companyName: companyName,
-                    latestPrice: latestPrice.toFixed(2),
+                    latestPrice: latestPrice,
                     numshares: numshares,
-                    totalspent: totalspent.toFixed(2)
+                    totalspent: totalspent
                 });
             });
         }
@@ -244,9 +251,9 @@ exports.sell_post = async (req, res) => {
                 res.render("sell_posted", {
                     symbol: symbol,
                     companyName: companyName,
-                    latestPrice: latestPrice.toFixed(2),
+                    latestPrice: latestPrice,
                     numshares: -numshares,
-                    totalspent: -totalspent.toFixed(2)
+                    totalspent: -totalspent
                 });
             });
         }

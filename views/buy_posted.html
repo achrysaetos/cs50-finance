@@ -7,8 +7,8 @@
     </div>
 
     <div class="container">
-        <h6>You just bought {{numshares}} shares of {{companyName}} ({{symbol}}) stock at ${{latestPrice}} a share.</h6>
-        <h6>Altogether, you spent a total of ${{totalspent}}.</h6>
+        <h6>You just bought {{numshares}} shares of {{companyName}} ({{symbol}}) stock at ${{latestPrice.toFixed(2)}} a share.</h6>
+        <h6>Altogether, you spent a total of ${{totalspent.toFixed(2)}}.</h6>
 
         <div style="text-align: center;">
             <button type="button" class="quote" onclick="location.href='/dashboard'">OK</button>

@@ -21,7 +21,7 @@
                     <td style="text-align: center; padding-top:20px; padding-bottom: 20px;">{{purchase.symbol}}</td>
                     <td style="text-align: center;">{{purchase.companyName}}</td>
                     <td style="text-align: center;">{{purchase.numshares}}</td>
-                    <td style="text-align: center;">{{purchase.latestPrice}}</td>
+                    <td style="text-align: center;">${{purchase.latestPrice.toFixed(2)}}</td>
                     <td style="text-align: center;">{{purchase.date}}</td>
                 </tr>
                 {% endfor %}
