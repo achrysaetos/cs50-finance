@@ -376,6 +376,14 @@ exports.login_post = async (req, res) => {
             });
 
         req.session.userID = user.uname;
+        try {
+            let endowmenthelper = await Portfolio_current.findOne({
+                client: uname
+            });
+            endowment = endowmenthelper.totalCash;
+        } catch {
+            endowment = 10000;
+        }
         await res.redirect("dashboard");
 
     } catch (e) {
@@ -403,7 +411,6 @@ exports.signup_post = async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
         user.pword = await bcrypt.hash(pword, salt);
-        endowment = 10000;
 
         await user.save(function (err) {
             if (err) { return next(err); }
