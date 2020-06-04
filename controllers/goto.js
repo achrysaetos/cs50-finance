@@ -123,63 +123,69 @@ exports.buy_post = async (req, res) => {
 
         var client = userjson.uname;
         var jsonquery = JSON.parse(xhr.responseText);
-        var date = Date(Date.now());
-        var symbol = jsonquery.symbol;
-        var companyName = jsonquery.companyName;
-        var latestPrice = jsonquery.latestPrice;
-        var numshares = req.body.buyshares;
-        var totalspent = jsonquery.latestPrice * numshares;
-
         try {
-            let userjson2 = await Portfolio_current.findOne({
-                client, symbol, companyName
-            });
+            if (endowment - jsonquery.latestPrice * req.body.buyshares < 0)
+                throw new Error("Not Enough Money!");
 
-            var currentPrice = latestPrice;
-            var currentShares = +numshares + userjson2.currentShares;
-            var currentTotal = totalspent;
-            var totalCash = endowment - currentTotal;
-            endowment = endowment - currentTotal;
+            var date = Date(Date.now());
+            var symbol = jsonquery.symbol;
+            var companyName = jsonquery.companyName;
+            var latestPrice = jsonquery.latestPrice;
+            var numshares = req.body.buyshares;
+            var totalspent = jsonquery.latestPrice * numshares;
 
-        } catch {
-            var currentPrice = latestPrice;
-            var currentShares = numshares;
-            var currentTotal = totalspent;
-            var totalCash = endowment - currentTotal;
-            endowment = endowment - currentTotal;
-
-        } finally {
-            portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
-            portfolio_current = new Portfolio_current({
-                client, symbol, companyName, currentPrice,
-                currentShares, currentTotal, totalCash
-            });
-
-            await Portfolio_current.update(
-                { "symbol": symbol, "client": client, "companyName": companyName },
-                {
-                    $set: { "currentShares": currentShares },
-                    $setOnInsert: {
-                        "currentPrice": currentPrice, "currentTotal": currentTotal, "totalCash": totalCash
-                    }
-                },
-                { upsert: true });
-            await Portfolio_current.update(
-                { "client": client },
-                {
-                    $set: { "totalCash": totalCash }
-                },
-                { multi: true });
-            await portfolio.save(function (err) {
-                if (err) { return next(err); }
-                res.render("buy_posted", {
-                    symbol: symbol,
-                    companyName: companyName,
-                    latestPrice: latestPrice,
-                    numshares: numshares,
-                    totalspent: totalspent
+            try {
+                let userjson2 = await Portfolio_current.findOne({
+                    client, symbol, companyName
                 });
-            });
+                var currentPrice = latestPrice;
+                var currentShares = +numshares + userjson2.currentShares;
+                var currentTotal = totalspent;
+                var totalCash = endowment - currentTotal;
+                endowment = endowment - currentTotal;
+
+            } catch {
+                var currentPrice = latestPrice;
+                var currentShares = numshares;
+                var currentTotal = totalspent;
+                var totalCash = endowment - currentTotal;
+                endowment = endowment - currentTotal;
+
+            } finally {
+                portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
+                portfolio_current = new Portfolio_current({
+                    client, symbol, companyName, currentPrice,
+                    currentShares, currentTotal, totalCash
+                });
+
+                await Portfolio_current.update(
+                    { "symbol": symbol, "client": client, "companyName": companyName },
+                    {
+                        $set: { "currentShares": currentShares },
+                        $setOnInsert: {
+                            "currentPrice": currentPrice, "currentTotal": currentTotal, "totalCash": totalCash
+                        }
+                    },
+                    { upsert: true });
+                await Portfolio_current.update(
+                    { "client": client },
+                    {
+                        $set: { "totalCash": totalCash }
+                    },
+                    { multi: true });
+                await portfolio.save(function (err) {
+                    if (err) { return next(err); }
+                    res.render("buy_posted", {
+                        symbol: symbol,
+                        companyName: companyName,
+                        latestPrice: latestPrice,
+                        numshares: numshares,
+                        totalspent: totalspent
+                    });
+                });
+            }
+        } catch {
+            res.status(500).send("Not Enough Money!");
         }
 
     } catch (err) {
@@ -215,56 +221,72 @@ exports.sell_post = async (req, res) => {
         var date = Date(Date.now());
         var symbol = jsonquery.symbol;
         var companyName = jsonquery.companyName;
-        var latestPrice = jsonquery.latestPrice;
-        var numshares = -req.body.sellshares;
-        var totalspent = jsonquery.latestPrice * numshares;
-
+        let userjson4 = await Portfolio_current.findOne({
+            client, symbol, companyName
+        })
+        if (userjson4 == null)
+                throw new Error("Not Enough Shares!");
         try {
-            let userjson2 = await Portfolio_current.findOne({
+            let userjson3 = await Portfolio_current.findOne({
                 client, symbol, companyName
             });
+            if (userjson3.currentShares - req.body.sellshares < 0)
+                throw new Error("Not Enough Shares!");
 
-            var currentPrice = latestPrice;
-            var currentShares = +numshares + userjson2.currentShares;
-            var currentTotal = totalspent;
-            var totalCash = userjson2.totalCash - totalspent;
+            var latestPrice = jsonquery.latestPrice;
+            var numshares = -req.body.sellshares;
+            var totalspent = jsonquery.latestPrice * numshares;
 
-        } catch (err) {
-            console.log(err.message);
-            res.status(500).send("ERROR");
-
-        } finally {
-            portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
-            portfolio_current = new Portfolio_current({
-                client, symbol, companyName, currentPrice,
-                currentShares, currentTotal, totalCash
-            });
-
-            await Portfolio_current.update(
-                { "symbol": symbol, "client": client, "companyName": companyName },
-                {
-                    $set: { "currentShares": currentShares },
-                    $setOnInsert: {
-                        "currentPrice": currentPrice, "currentTotal": currentTotal, "totalCash": totalCash
-                    }
-                },
-                { upsert: true });
-            await Portfolio_current.update(
-                { "client": client },
-                {
-                    $set: { "totalCash": totalCash }
-                },
-                { multi: true });
-            await portfolio.save(function (err) {
-                if (err) { return next(err); }
-                res.render("sell_posted", {
-                    symbol: symbol,
-                    companyName: companyName,
-                    latestPrice: latestPrice,
-                    numshares: -numshares,
-                    totalspent: -totalspent
+            try {
+                let userjson2 = await Portfolio_current.findOne({
+                    client, symbol, companyName
                 });
-            });
+
+                var currentPrice = latestPrice;
+                var currentShares = +numshares + userjson2.currentShares;
+                var currentTotal = userjson2.currentTotal + totalspent;
+                var totalCash = userjson2.totalCash - totalspent;
+                endowment = endowment - totalspent;
+
+            } catch (err) {
+                console.log(err.message);
+                res.status(500).send("ERROR");
+
+            } finally {
+                portfolio = new Portfolio({ client, date, symbol, companyName, latestPrice, numshares, totalspent });
+                portfolio_current = new Portfolio_current({
+                    client, symbol, companyName, currentPrice,
+                    currentShares, currentTotal, totalCash
+                });
+
+                await Portfolio_current.update(
+                    { "symbol": symbol, "client": client, "companyName": companyName },
+                    {
+                        $set: { "currentShares": currentShares },
+                        $setOnInsert: {
+                            "currentPrice": currentPrice, "currentTotal": currentTotal, "totalCash": totalCash
+                        }
+                    },
+                    { upsert: true });
+                await Portfolio_current.update(
+                    { "client": client },
+                    {
+                        $set: { "totalCash": totalCash }
+                    },
+                    { multi: true });
+                await portfolio.save(function (err) {
+                    if (err) { return next(err); }
+                    res.render("sell_posted", {
+                        symbol: symbol,
+                        companyName: companyName,
+                        latestPrice: latestPrice,
+                        numshares: -numshares,
+                        totalspent: -totalspent
+                    });
+                });
+            }
+        } catch {
+            res.status(500).send("Not Enough Shares!");
         }
 
     } catch (err) {
