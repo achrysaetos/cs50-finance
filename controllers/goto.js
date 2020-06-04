@@ -12,6 +12,8 @@ var Portfolio_current = require("../models/portfolio_current");
 /*-------------------------------------------------------------------------------------------------*/
 
 exports.home = function (req, res) {
+    if (req.session.userID)
+        res.redirect("portfolio");
     res.render("index");
 };
 exports.products = function (req, res) {
@@ -30,22 +32,28 @@ exports.contact_us = function (req, res) {
     res.render("contact_us");
 };
 exports.signup = function (req, res) {
+    if (req.session.userID)
+        res.redirect("portfolio");
     res.render("signup");
 };
 exports.login = function (req, res) {
+    if (req.session.userID)
+        res.redirect("portfolio");
     res.render("login");
 };
 exports.forgot = function (req, res) {
+    if (req.session.userID)
+        res.redirect("portfolio");
     res.render("forgot");
 };
 
 /*-------------------------------------------------------------------------------------------------*/
 
-exports.dashboard = function (req, res) {
+exports.portfolio = function (req, res) {
     if (!req.session.userID) {
         res.redirect("login");
     } else {
-        res.render("dashboard");
+        res.render("portfolio");
     }
 
 };
@@ -225,7 +233,7 @@ exports.sell_post = async (req, res) => {
             client, symbol, companyName
         })
         if (userjson4 == null)
-                throw new Error("Not Enough Shares!");
+            throw new Error("Not Enough Shares!");
         try {
             let userjson3 = await Portfolio_current.findOne({
                 client, symbol, companyName
@@ -415,7 +423,7 @@ exports.login_post = async (req, res) => {
         } catch {
             endowment = 10000;
         }
-        await res.redirect("dashboard");
+        await res.redirect("portfolio");
 
     } catch (e) {
         console.error(e);

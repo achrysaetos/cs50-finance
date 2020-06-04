@@ -16,10 +16,10 @@ router.get("/login", goto.login);
 router.get("/forgot", goto.forgot);
 
 router.post("/login", goto.signup_post);
-router.post("/dashboard", goto.login_post);
+router.post("/portfolio", goto.login_post);
 router.post("/logout", goto.logout);
 
-router.get("/dashboard", goto.dashboard);
+router.get("/portfolio", goto.portfolio);
 router.get("/logout", goto.logout);
 
 router.get("/quote", goto.quote);
@@ -31,7 +31,6 @@ router.post("/buy", goto.buy_post);
 router.get("/sell", goto.sell);
 router.post("/sell", goto.sell_post);
 
-router.get("/portfolio", goto.portfolio);
 router.get("/history", goto.history);
 
 module.exports = router;
