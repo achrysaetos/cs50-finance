@@ -376,7 +376,7 @@ Banners-------------------------------------------------------------------------
     font-style: italic;
 }
 
-.testimonials h4{
+.testimonials h5{
     float: right;
     margin-top: 0;
 }
@@ -535,7 +535,16 @@ a:hover{
 
 
 
-
+/*
+Miscellaneous--------------------------------------------------------------------------------------
+*/
+h4 {
+    padding-left: 100px;
+    padding-right: 100px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+}
 
 
 
