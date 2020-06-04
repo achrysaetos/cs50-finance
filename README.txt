@@ -19,3 +19,5 @@ npm install mongoose to connect to a database for users and features
 npm install bcryptjs, body-parser, and express-validator in order to securely authenticate users
 npm install express-session in order to track user sessions
 npm install xmlhttprequest in order to get json from http url
+
+cannot buy more than you have in cash, cannot sell other stocks nor more than you have in shares

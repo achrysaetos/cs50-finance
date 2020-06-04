@@ -69,28 +69,33 @@ exports.quote = (req, res) => {
 exports.quote_post = (req, res) => {
     if (!req.session.userID)
         res.redirect("login");
-    var url = "https://cloud-sse.iexapis.com/stable/stock/" + req.body.quotesymbol + "/quote?token=" + api_key;
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, false);
-    xhr.send(null);
-
-    var jsonquery = JSON.parse(xhr.responseText);
-    var symbol = jsonquery.symbol;
-    var companyName = jsonquery.companyName;
-    var latestPrice = jsonquery.latestPrice.toFixed(2);
     try {
-        var open = jsonquery.open.toFixed(2);
-        var close = jsonquery.close.toFixed(2);
-        var high = jsonquery.high.toFixed(2);
-        var low = jsonquery.low.toFixed(2);
-        res.render("quote_posted", {
-            symbol: symbol, companyName: companyName, latestPrice: latestPrice,
-            open: open, close: close, high: high, low: low
-        });
-    } catch {
-        res.render("quote_posted", {
-            symbol: symbol, companyName: companyName, latestPrice: latestPrice
-        });
+        var url = "https://cloud-sse.iexapis.com/stable/stock/" + req.body.quotesymbol + "/quote?token=" + api_key;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, false);
+        xhr.send(null);
+
+        var jsonquery = JSON.parse(xhr.responseText);
+        var symbol = jsonquery.symbol;
+        var companyName = jsonquery.companyName;
+        var latestPrice = jsonquery.latestPrice.toFixed(2);
+        try {
+            var open = jsonquery.open.toFixed(2);
+            var close = jsonquery.close.toFixed(2);
+            var high = jsonquery.high.toFixed(2);
+            var low = jsonquery.low.toFixed(2);
+            res.render("quote_posted", {
+                symbol: symbol, companyName: companyName, latestPrice: latestPrice,
+                open: open, close: close, high: high, low: low
+            });
+        } catch {
+            res.render("quote_posted", {
+                symbol: symbol, companyName: companyName, latestPrice: latestPrice
+            });
+        }
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send("Enter a Valid Symbol!");
     }
 };
 
@@ -106,6 +111,8 @@ exports.buy_post = async (req, res) => {
         res.redirect("login");
     var user = req.session.userID;
     try {
+        if (req.body.buyshares < 1 || !Number.isInteger(Number(req.body.buyshares)))
+            throw new Error("Enter a Valid Symbol and a Positive Number of Shares!");
         let userjson = await User.findOne({
             uname: user
         });
@@ -177,7 +184,7 @@ exports.buy_post = async (req, res) => {
 
     } catch (err) {
         console.log(err.message);
-        res.status(500).send("Error in Saving");
+        res.status(500).send("Enter a Valid Symbol and a Positive Number of Shares!");
     }
 };
 
@@ -193,6 +200,8 @@ exports.sell_post = async (req, res) => {
         res.redirect("login");
     var user = req.session.userID;
     try {
+        if (req.body.sellshares < 1 || !Number.isInteger(Number(req.body.sellshares)))
+            throw new Error("Enter a Valid Symbol and a Positive Number of Shares!");
         let userjson = await User.findOne({
             uname: user
         });
@@ -260,7 +269,7 @@ exports.sell_post = async (req, res) => {
 
     } catch (err) {
         console.log(err.message);
-        res.status(500).send("Error in Saving");
+        res.status(500).send("Enter a Valid Symbol and a Positive Number of Shares!");
     }
 };
 
