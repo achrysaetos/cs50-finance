@@ -33,4 +33,6 @@ router.post("/sell", goto.sell_post);
 
 router.get("/history", goto.history);
 
+router.get("/error", goto.error);
+
 module.exports = router;

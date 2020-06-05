@@ -46,6 +46,9 @@ exports.forgot = function (req, res) {
         res.redirect("portfolio");
     res.render("forgot");
 };
+exports.error = function (req, res) {
+    res.render("error");
+}
 
 /*-------------------------------------------------------------------------------------------------*/
 
