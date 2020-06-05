@@ -536,34 +536,6 @@ a:hover{
 
 
 /*
-Miscellaneous--------------------------------------------------------------------------------------
-*/
-h4 {
-    padding-left: 100px;
-    padding-right: 100px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: normal;
-    font-size: 18px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
 Sign up page---------------------------------------------------------------------------------------
 */
 .signupmodal{
@@ -589,3 +561,17 @@ Sign up page--------------------------------------------------------------------
     display: flex;
     justify-content: space-between;
 }
+
+
+
+/*
+Miscellaneous--------------------------------------------------------------------------------------
+*/
+h4 {
+    padding-left: 100px;
+    padding-right: 100px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+}
+

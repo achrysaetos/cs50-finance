@@ -5,17 +5,36 @@
     <title>C$50Finance</title>
     <style>
         .error {
-            height: 800px;
+            height: 100%;
             background-image: url("../images/vader.jpg");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
+
+        .errormain {
+            color: rgb(255, 110, 0);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 30px;
+            font-weight: bold;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
+                -1px 1px 0 #000, 1px 1px 0 #000;
+            margin-top: 200px;
+            margin-left: 200px;
+        }
+
+        .errorcont {
+            color: black;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 24px;
+            margin-left: 200px;
+        }
     </style>
 </head>
 
 <body class="error">
-
+    <h1 class="errormain">Don't Force It.</h1>
+    <h1 class="errorcont">{{message}}</h1>
 </body>
 
 </html>

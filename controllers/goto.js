@@ -106,7 +106,8 @@ exports.quote_post = (req, res) => {
         }
     } catch (err) {
         console.log(err.message);
-        res.status(500).send("Enter a Valid Symbol!");
+        var message= "Enter a valid symbol.";
+        res.render("error", {message: message});
     }
 };
 
@@ -196,12 +197,14 @@ exports.buy_post = async (req, res) => {
                 });
             }
         } catch {
-            res.status(500).send("Not Enough Money!");
+            var message= "Not enough money.";
+            res.render("error", {message: message});
         }
 
     } catch (err) {
         console.log(err.message);
-        res.status(500).send("Enter a Valid Symbol and a Positive Number of Shares!");
+        var message= "Enter a valid symbol and number of shares.";
+        res.render("error", {message: message});
     }
 };
 
@@ -297,12 +300,14 @@ exports.sell_post = async (req, res) => {
                 });
             }
         } catch {
-            res.status(500).send("Not Enough Shares!");
+            var message= "Not enough shares.";
+            res.render("error", {message: message});
         }
 
     } catch (err) {
         console.log(err.message);
-        res.status(500).send("Enter a Valid Symbol and a Positive Number of Shares!");
+        var message= "Enter a valid symbol and number of shares.";
+        res.render("error", {message: message});
     }
 };
 
@@ -405,17 +410,17 @@ exports.login_post = async (req, res) => {
             uname
         });
 
-        if (!user)
-            return res.status(400).json({
-                message: "User Does Not Exist"
-            });
+        if (!user) {
+            var message= "User does not exist.";
+            return res.render("error", {message: message});
+        }
 
         const isMatch = await bcrypt.compare(pword, user.pword);
 
-        if (!isMatch)
-            return res.status(400).json({
-                message: "Incorrect Password!"
-            });
+        if (!isMatch) {
+            var message= "Incorrect password.";
+            return res.render("error", {message: message});
+        }
 
         req.session.userID = user.uname;
         try {
@@ -444,9 +449,8 @@ exports.signup_post = async (req, res) => {
         });
 
         if (user) {
-            return res.status(400).json({
-                msg: "User Already Exists"
-            });
+            var message= "User already exists.";
+            return res.render("error", {message: message});
         }
 
         user = new User({ uname, fname, lname, pword });
