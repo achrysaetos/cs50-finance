@@ -11,7 +11,6 @@ var helmet = require('helmet');//after we npm install helmet
 
 //Connects to MongoDB
 var mongoose = require("mongoose");//imports the mongoose module
-var dev_db_url = "mongodb+srv://achrysaetos:sempiternal@cluster0-jjeek.mongodb.net/fullstack_template?retryWrites=true&w=majority";
 var mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true });//sets up the defualt mongoose connection
 var db = mongoose.connection;//gets the default connection
