@@ -4,6 +4,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require("body-parser");//after we npm install body-parser
 var session = require("express-session");//after we npm install express-session
+var compression = require('compression');//after we npm install compression
+var helmet = require('helmet');//after we npm install helmet
 
 
 
@@ -30,6 +32,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(compression());//to use compression
+app.use(helmet());//to use helmet
 app.use(bodyParser.json());//to use body-parser
 app.use(session({
     name: "session",//so we know what cookies to clear
