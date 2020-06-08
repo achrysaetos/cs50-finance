@@ -20,3 +20,6 @@ npm install bcryptjs, body-parser, and express-validator in order to securely au
 npm install express-session in order to track user sessions
 npm install xmlhttprequest in order to get json from http url
 npm install compression and helmet to get ready for deployment
+
+DEPLOYED!
+Go to https://sleepy-woodland-48112.herokuapp.com/
