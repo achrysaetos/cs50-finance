@@ -2,7 +2,7 @@
 const { check, validationResult } = require("express-validator");//after we npm install express-validator
 const bcrypt = require("bcryptjs");//after we npm install bcryptjs
 
-var api_key = "";//api public key goes here
+var api_key = "pk_f83525dace814340bdc3798e1a01e265";//api public key goes here
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;//in order to get json from http url
 
 var User = require("../models/user");
