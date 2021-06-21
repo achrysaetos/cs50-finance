@@ -1,0 +1,21 @@
+{% extends "LAYOUT2.html" %}
+{% block body %}
+
+<form action="/quote" method="post" style="float:right" class="loginmodal" autocomplete="off">
+    <div class="modalhead">
+        Quote a Stock
+    </div>
+
+    <div class="container">
+        <label class="modaltxt" for="quotesymbol">Company Symbol</label>
+        <input type="text" placeholder="Enter company symbol" name="quotesymbol" required>
+
+        <div style="text-align: center;">
+            <button type="button" class="cancel" onclick="location.href='/portfolio'">Cancel</button>
+            <button class="quote">Quote</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>C$50Finance</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style2.css">
+</head>
+
+<body>
+    <div class="dashboard">
+        <header>
+            <ul>
+                <li><a id="brand" href="/">C$50Finance</a></li>
+                <li><a class="nav" href="/quote">Quote a Stock</a></li>
+                <li><a class="nav" href="/buy">BUY!</a></li>
+                <li><a class="nav" href="/sell">SELL!</a></li>
+                <li><a class="nav" href="/history">My History</a></li>
+            </ul>
+        </header>
+        <div class="screen">
+            <div class="bar">
+                <ul>
+                    <li class="logout" onclick="location.href='/logout'" style="float:right">Log Out</li>
+                </ul>
+
+            </div>
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <footer>
+        <hr>
+
+        <ul>
+            <li>
+                <h6>Copyright © 2020 ACHRYSAETOS, Inc.</h6>
+            </li>
+            <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">Terms of Service</a></li>
+            <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">Privacy Policy</a></li>
+            <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">FAQs</a></li>
+            <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">Careers</a></li>
+            <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">Support Us</a></li>
+        </ul>
+
+    </footer>
+
+</body>
+
+</html>

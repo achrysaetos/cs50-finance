@@ -1,0 +1,54 @@
+{% extends "LAYOUT.html" %}
+{% block body %}
+
+<main>
+    <div class="jumbotron" style="background-image: url('images/car.jpg');">
+        <div class="flexalign">
+            <div class="intro">
+                <h1 style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 
+                -1px 1px 0 #000, 1px 1px 0 #000;">Features</h1>
+                <h2 style="color: white; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 
+                -1px 1px 0 #000, 1px 1px 0 #000;">
+                    Here are a couple of our features. We have many features. For example, some include: 
+                    making you happy, giving us jobs, and allowing everyone to make money.
+                </h2>
+                <button class="learnmore" type="button" onclick="location.href='/'">Back home</button>
+                <button class="getstarted" type="button" onclick="location.href='/signup'">Get started</button>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<hr>
+<div class="testimonials" style="background-color: white;">
+    <h1>Content for Features Page</h1>
+    <h4 style="float: left;">
+    A stock derivative is any financial instrument for which the underlying asset is the price of an equity. 
+    Futures and options are the main types of derivatives on stocks. The underlying security may be a stock index 
+    or an individual firm's stock, e.g. single-stock futures.</h4>
+    <h4 style="float: left;">
+    Stock futures are contracts where the buyer is long, i.e., takes on the obligation to buy on the contract 
+    maturity date, and the seller is short, i.e., takes on the obligation to sell. Stock index futures are 
+    generally delivered by cash settlement.</h4>
+    <h4 style="float: left;">
+    A stock option is a class of option. Specifically, a call option is the right (not obligation) to buy stock 
+    in the future at a fixed price and a put option is the right (not obligation) to sell stock in the future at 
+    a fixed price. Thus, the value of a stock option changes in reaction to the underlying stock of which it is a 
+    derivative. The most popular method of valuing stock options is the Black–Scholes model. Apart from call options 
+    granted to employees, most stock options are transferable.</h4>
+    <h4 style="float: left;">
+    "Rule 144 Stock" is an American term given to shares of stock subject to SEC Rule 144: Selling Restricted and 
+    Control Securities. Under Rule 144, restricted and controlled securities are acquired in unregistered form. 
+    Investors either purchase or take ownership of these securities through private sales (or other means such as 
+    via ESOPs or in exchange for seed money) from the issuing company (as in the case with Restricted Securities) 
+    or from an affiliate of the issuer (as in the case with Control Securities). Investors wishing to sell these 
+    securities are subject to different rules than those selling traditional common or preferred stock. These individuals 
+    will only be allowed to liquidate their securities after meeting the specific conditions set forth by SEC Rule 144. 
+    Rule 144 allows public re-sale of restricted securities if a number of different conditions are met.</h4>
+    <br>
+</div>
+
+<hr>
+
+{% endblock %}

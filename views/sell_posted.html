@@ -1,0 +1,20 @@
+{% extends "LAYOUT2.html" %}
+{% block body %}
+
+<form action="/quote" method="post" style="float:right" class="loginmodal" autocomplete="off">
+    <div class="modalhead">
+        Confirmation of Sale
+    </div>
+
+    <div class="container">
+        <h6>You just sold {{numshares}} shares of {{companyName}} ({{symbol}}) stock at ${{latestPrice.toFixed(2)}} a share.</h6>
+        <h6>Altogether, you made a total of ${{totalspent.toFixed(2)}}.</h6>
+
+        <div style="text-align: center;">
+            <button type="button" class="quote" onclick="location.href='/portfolio'">OK</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

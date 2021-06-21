@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>C$50Finance</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a id="brand" href="/">C$50Finance</a></li>
+            <li><a class="nav" href="/products">Products</a></li>
+            <li><a class="nav" href="/features">Features</a></li>
+            <li><a class="nav" href="/pricing">Pricing</a></li>
+            <li><a class="nav" href="/about">About</a></li>
+            <li><a class="nav" href="/contact_us">Contact Us</a></li>
+            <li class="signup" onclick="location.href='/signup'" style="float:right">Sign Up</li>
+            <li class="login" onclick="location.href='/login'" style="float:right">Log In</li>
+        </ul>
+    </header>
+
+    {% block body %}
+    {% endblock %}
+
+    <footer>
+        <div class="footersections">
+            <div class="about">
+                <h1>About</h1>
+                <h3>
+                    You’re about to implement C$50 Finance, a web app via which you can manage portfolios of stocks. 
+                    Not only will this tool allow you to check real stocks’ actual prices and portfolios’ values, it 
+                    will also let you buy (okay, “buy”) and sell (okay, “sell”) stocks by querying IEX for stocks’ prices.
+                </h3>
+            </div>
+
+            <div class="categories">
+                <h1>Categories</h1>
+                <ul>
+                    <li><a href="/products">Products</a></li>
+                    <li><a href="/features">Features</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="contact_us">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="quicklinks">
+                <h1>Quick Links</h1>
+                <ul>
+                    <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">Terms of Service</a></li>
+                    <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">Privacy Policy</a></li>
+                    <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">FAQs</a></li>
+                    <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">Careers</a></li>
+                    <li><a href="https://cs50.harvard.edu/x/2020/tracks/web/finance/">Support Us</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+        <h6>Copyright © 2020 ACHRYSAETOS, Inc. All rights reserved.</h6>
+
+    </footer>
+
+
+</body>
+
+</html>
