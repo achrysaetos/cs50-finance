@@ -2,7 +2,7 @@
 
 The classic CS50 finance web app for stock portfolio management — but fully adapted for Node.js and MongoDB (originally used Flask and SQL).
 
-*Don't forget to add your database url to app.js and your api key to goto.js, or set them as environment variables!*
+*Don't forget to add your database url and your api key to `config.js` or set them as environment variables.*
 
 **To start:** run `DEBUG=cs50-finance:* npm run devstart` and go to http://localhost:3000.
 
@@ -15,5 +15,3 @@ The classic CS50 finance web app for stock portfolio management — but fully ad
 * npm install compression and helmet to get ready for deployment
 
 DEPLOYED!
-Go to https://sleepy-woodland-48112.herokuapp.com/
-
